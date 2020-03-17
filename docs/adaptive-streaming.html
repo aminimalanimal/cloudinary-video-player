@@ -32,6 +32,8 @@
       var cld = cloudinary.Cloudinary.new({ cloud_name: 'demo' });
       playerHls = cld.videoPlayer('example-player-hls');
       playerDash = cld.videoPlayer('example-player-dash');
+      playerHlsNoCodec = cld.videoPlayer('example-player-hls-no-codec');
+      playerDashNoCodec = cld.videoPlayer('example-player-dash-no-codec');
 
       playerHls.source(
         'sea_turtle',
@@ -48,6 +50,22 @@
           transformation: {streaming_profile: 'hd'},
           info: {title: 'MPEG-DASH'}
         }
+      );
+      playerHlsNoCodec.source(
+              'sea_turtle',
+              {
+                sourceTypes: ['hls'],
+                transformation: {streaming_profile: 'hd'},
+                info: {title: 'HLS'}
+              }
+      );
+      playerDashNoCodec.source(
+              'sea_turtle',
+              {
+                sourceTypes: ['dash'],
+                transformation: {streaming_profile: 'hd'},
+                info: {title: 'MPEG-DASH'}
+              }
       );
 
       playerHls.on('qualitychanged', function(data) {
@@ -91,6 +109,31 @@
         class="cld-video-player"
       ></video>
     </div>
+    <div class="video-container mb-4">
+      <video
+              id="example-player-hls-no-codec"
+              playsinline
+              controls
+              muted
+              width="500"
+              class="cld-video-player"
+      ></video>
+    </div>
+
+    <div class="video-container mb-4">
+      <video
+              id="example-player-dash-no-codec"
+              playsinline
+              controls
+              muted
+              width="500"
+              class="cld-video-player"
+      ></video>
+    </div>
+
+
+
+
 
     <p class="mt-4">
       <a href="https://cloudinary.com/documentation/video_player_hls_dash">Adaptive streaming documentation</a>
