@@ -60,6 +60,11 @@ const DEFAULT_HLS_OPTIONS = {
 Object.keys(plugins).forEach((key) => {
   videojs.registerPlugin(key, plugins[key]);
 });
+// eslint-disable-next-line no-undef
+if (cloudinaryVideoPlayer && cloudinaryVideoPlayer.default) {
+  // eslint-disable-next-line no-undef
+  videojs.registerPlugin('cldInteractive', cloudinaryVideoPlayer.default);
+}
 
 const normalizeAutoplay = (options) => {
   const autoplayMode = options.autoplayMode;
@@ -238,6 +243,10 @@ class VideoPlayer extends Utils.mixin(Eventable) {
       this.initTextTracks(options.videojsOptions.textTracks);
     };
 
+    this.initInterActive = (shoppableOptions) => {
+      // eslint-disable-next-line no-undef,no-new,new-cap
+      this.videojs.cldInteractive(this.videojs, shoppableOptions);
+    };
     const initIma = (loaded) => {
       if (!loaded.contribAdsLoaded || !loaded.imaAdsLoaded) {
         if (_options.ads) {
@@ -522,6 +531,9 @@ class VideoPlayer extends Utils.mixin(Eventable) {
       options.usageReport = true;
     }
     this.initTextTracks(options.textTracks);
+    if (options.shoppable) {
+      this.initInterActive(options.shoppable);
+    }
     clearTimeout(this.reTryVideo);
     this.nbCalls = 0;
     let maxTries = this.videojs.options_.maxTries || 3;

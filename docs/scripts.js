@@ -116,6 +116,8 @@ var loadStyle = function (source, ver) {
       ver = ver || 'edge'; // Set default version in case flavor is provided but version isn't.
     }
 
+    loadScript('/cld-interactive.js');
+    loadStyle('/cld-interactive.css');
     loadScript('https://unpkg.com/cloudinary-core/cloudinary-core-shrinkwrap.js');
     loadStyle('/cld-video-player' + (flavor ? '.' + flavor : '') + '.css', ver);
     loadScript('/cld-video-player' + (flavor ? '.' + flavor : '') + '.js', ver);

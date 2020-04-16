@@ -29,7 +29,7 @@ class BaseSource {
         return _cloudinaryConfig;
       }
 
-      _cloudinaryConfig = getCloudinaryInstanceOf(cloudinary.Cloudinary, config);
+      _cloudinaryConfig = getCloudinaryInstanceOf(window.cloudinary.Cloudinary, config);
 
       return this;
     };
@@ -49,7 +49,7 @@ class BaseSource {
         return _transformation;
       }
 
-      _transformation = getCloudinaryInstanceOf(cloudinary.Transformation, trans);
+      _transformation = getCloudinaryInstanceOf(window.cloudinary.Transformation, trans);
 
       return this;
     };
@@ -85,7 +85,7 @@ class BaseSource {
 
 
   config() {
-    const cld = new cloudinary.Cloudinary(this.cloudinaryConfig().config());
+    const cld = new window.cloudinary.Cloudinary(this.cloudinaryConfig().config());
     cld.config(this.resourceConfig());
 
     return cld;
