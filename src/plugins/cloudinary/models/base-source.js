@@ -1,4 +1,3 @@
-import cloudinary from 'cloudinary-core';
 import { normalizeOptions } from '../common';
 import { sliceAndUnsetProperties } from 'utils/slicing';
 import { getCloudinaryInstanceOf } from 'utils/cloudinary';

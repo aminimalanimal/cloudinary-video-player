@@ -19,8 +19,8 @@ module.exports = {
   context: path.resolve(__dirname, '../src'),
 
   entry: {
-    'cld-video-player': './index.js',
-    'cld-interactive': './plugins/cld-interactive-video/index.js'
+    'cld-video-player': { import: './index.js', filename: 'cld-video-player.js' },
+    'cld-interactive': { import: './plugins/cld-interactive-video/index.js', filename: 'cld-interactive.js', dependOn: 'cld-video-player' }
   },
   performance: {
     maxEntrypointSize: 800000,
@@ -123,10 +123,12 @@ module.exports = {
     ]
   },
 
+  /*
   node: {
     fs: 'empty',
     net: 'empty'
   },
+*/
 
   plugins: [
     new ProvidePlugin({

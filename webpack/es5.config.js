@@ -8,9 +8,11 @@ const DefinePlugin = require('webpack/lib/DefinePlugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = (env, argv) => {
-  lightFilenamePart = argv.mode === 'development' ? lightFilenamePart : lightFilenamePart + '.min';
+  let mode = argv.mode ? argv.mode : 'development';
+  lightFilenamePart = mode === 'development' ? lightFilenamePart : lightFilenamePart + '.min';
 
   return merge.smart(webpackCommon, {
     bail: false,
@@ -22,12 +24,15 @@ module.exports = (env, argv) => {
       chunkFilename: `[id]-[chunkhash]${lightFilenamePart}.js`
     },
 
-    optimization: optimization(argv.mode),
-    plugins: plugins(argv.mode)
+    // eslint-disable-next-line no-undef
+    optimization: optimization(mode),
+    // eslint-disable-next-line no-undef
+    plugins: plugins(mode)
   });
 };
 
 function optimization(mode) {
+  console.log('mode', mode);
   if (mode !== 'production') {
     return;
   }
@@ -49,7 +54,28 @@ function optimization(mode) {
           }
         }
       })
-    ]
+    ],
+
+    splitChunks: {
+      cacheGroups: {
+        'cld-video-player': {
+          name: 'cld-video-player',
+          priority: 1,
+          enforce: true
+        },
+        'cld-interactive': {
+          chunks: 'all',
+          name: 'interactive',
+          priority: 2,
+          enforce: true,
+          reuseExistingChunk: true,
+          test(module, chunks) {
+            console.log(chunks);
+            return chunks.some(chunk => chunk.name === 'cld-interactive');
+          }
+        }
+      }
+    }
   };
 }
 
@@ -63,10 +89,12 @@ function plugins(mode) {
     new MiniCssExtractPlugin({
       filename: `[name]${lightFilenamePart}.css`,
       chunkFilename: '[id].css'
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ];
   if (mode !== 'development') {
     plugins.push(new OptimizeCssAssetsPlugin({}));
   }
+  console.log(plugins);
   return plugins;
 }
