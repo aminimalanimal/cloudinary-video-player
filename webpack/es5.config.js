@@ -54,28 +54,7 @@ function optimization(mode) {
           }
         }
       })
-    ],
-
-    splitChunks: {
-      cacheGroups: {
-        'cld-video-player': {
-          name: 'cld-video-player',
-          priority: 1,
-          enforce: true
-        },
-        'cld-interactive': {
-          chunks: 'all',
-          name: 'interactive',
-          priority: 2,
-          enforce: true,
-          reuseExistingChunk: true,
-          test(module, chunks) {
-            console.log(chunks);
-            return chunks.some(chunk => chunk.name === 'cld-interactive');
-          }
-        }
-      }
-    }
+    ]
   };
 }
 
@@ -88,9 +67,9 @@ function plugins(mode) {
     }),
     new MiniCssExtractPlugin({
       filename: `[name]${lightFilenamePart}.css`,
-      chunkFilename: '[id].css'
+      chunkFilename: '[name].css'
     }),
-    new BundleAnalyzerPlugin()
+    // new BundleAnalyzerPlugin() // TODO: add a switch for this
   ];
   if (mode !== 'development') {
     plugins.push(new OptimizeCssAssetsPlugin({}));

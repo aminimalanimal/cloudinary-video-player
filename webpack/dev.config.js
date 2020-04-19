@@ -9,6 +9,7 @@ const DefinePlugin = require('webpack/lib/DefinePlugin');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const EnableLibraryPlugin = require('webpack/lib/library/EnableLibraryPlugin');
 
 module.exports = merge.smart(webpackCommon, {
   devtool: 'inline-source-map',
@@ -33,7 +34,8 @@ module.exports = merge.smart(webpackCommon, {
       inject: false,
       template: path.resolve(__dirname, '../docs/index.html')
     }),
-    new CopyWebpackPlugin([{ from: '../docs' }])
+    new CopyWebpackPlugin([{ from: '../docs' }]),
+    new EnableLibraryPlugin()
   ],
 
   devServer: {
