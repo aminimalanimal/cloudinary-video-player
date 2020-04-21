@@ -29,7 +29,8 @@ module.exports = {
 
   output: {
     libraryTarget: 'umd',
-    library: 'cloudinaryVideoPlayer'
+    library: ['cloudinaryVideoPlayer', '[name]'],
+    libraryExport: ''
   },
 
   externals: {

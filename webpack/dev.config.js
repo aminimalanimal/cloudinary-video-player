@@ -15,6 +15,11 @@ module.exports = merge.smart(webpackCommon, {
   devtool: 'inline-source-map',
   mode: 'development',
 
+  entry: {
+    'cld-video-player': './index.js',
+    'cld-interactive': './plugins/cld-interactive-video/index.js'
+  },
+
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].js',
